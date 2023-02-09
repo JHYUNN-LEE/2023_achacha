@@ -1,0 +1,250 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="{% static 'acha_money/css/post_detail.css' %}" rel="stylesheet" type="text/css" >
+    <script>
+        $(function() {
+        var target = document.querySelector('.btn_open');
+        var btnPopClose = document.querySelector('.btn_close');
+        var targetID;
+
+        // 팝업 열기
+        target.addEventListener('click', function(){
+            console.log("button click")
+            targetID = this.getAttribute('href');
+            document.querySelector(targetID).style.display = 'block';
+        });
+        
+
+        // 팝업 닫기
+        btnPopClose.addEventListener('click', function(){
+            this.parentNode.parentNode.style.display = 'none';
+        });
+        });
+    </script>
+    <style>
+        .warning{
+            color:red;
+            font-size: 10pt;
+        }
+        .btn_open, .btn_open2{
+            font-weight:bold; 
+            
+            /* padding:4px 6px;  */
+            /* background:#000;  */
+            color:#fff;
+        }
+
+        #find_check, #send_check{
+            /* float: left; */
+            background-color: #4e73df;
+            color: white;
+            height: 30px;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 5px 0;
+            margin-right: 3px;
+        }
+        .pop_wrap{
+            position:fixed; 
+            top:0; 
+            left:0; 
+            right:0; 
+            bottom:0; 
+            background:rgba(0,0,0,.5); 
+            font-size:0; 
+            text-align:center;
+        }
+        .text{
+            text-align: left;
+            font-size: 10pt;
+        }
+        .pop_wrap:after{
+            display:inline-block; 
+            height:100%; 
+            vertical-align:middle; 
+            content:'';
+        }
+        .pop_wrap .pop_inner{
+            display:inline-block; 
+            padding:20px 30px; 
+            background:#fff; 
+            width:80%; 
+            vertical-align:middle; 
+            font-size:15px;
+            border-radius: 10px;
+        }
+        .btn_close, .btn_close2{
+            margin-top: 10px;
+            border: 1px solid #c9cbd7;
+        }
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        a:hover{
+            color: white;
+            text-decoration: none;
+        }
+        .btn{
+            margin:0;
+            padding: 0;
+        }
+    </style>
+
+</head>
+<body>
+{% if user.is_authenticated %}
+    <div class="lost_items">
+        <div class="col-lg-6 mb-4">
+        {% for post in posts %}
+        {% if post.lost_items_id %}
+            <div class="img">
+                <img class="img" src="{% get_static_prefix %}/{{ post.img_src }}" alt="image" onerror="this.onerror=null; this.src='{% static 'bootstrap/img/no_image.png' %}';">
+            </div>
+        {% else %}
+            <div class="img">
+                <img class="img" src="{% static 'bootstrap/img/no_image.png' %}" alt="no image">
+            </div>
+        {% endif %}
+        <ul>
+            <li>분실물명 : <span class="title" name="title">{{ post.title }}</span></li>
+            <li>작성일시 : <span class="lost_date" name="lost_date">{{ post.created_at}}</span></li>
+            <li>작성자 : <span class="author" name="author">{{ request.user }}</span></li>
+            <li>보관장소 : <span class="lost_place" name="lost_place">{{ post.get_place }}</span></li>
+            <li>사례금 : <span class="cost" name="cost">{{ post.cost }} 원</span></li>
+            <li>
+                <a href="#pop_info_1" class="btn_open">
+                    <div class="btn">
+                        <!-- <div class="div_content"> -->
+                            <button id="find_check">대신 수령 완료
+                        <!-- </div> -->
+                    </div>
+                </a>
+                <a href="#pop_info_2" class="btn_open2">
+                    <div class="btn">
+                        <!-- <div class="div_content"> -->
+                            <button id="send_check">배송 완료
+                        <!-- </div> -->
+                    </div>
+                </a>
+            </li>
+        </ul>
+        
+        {% endfor %}
+        </div>
+    
+    </div>
+
+    <div id="pop_info_1" class="pop_wrap" style="display:none;">
+        <div class="pop_inner">
+            <div class="title">프로세스 안내</div>
+            <div class="text">
+            <br>
+            대신 수령해 주셔서 감사합니다!
+            <br>
+            수령자에게 물건이 대신 수령되었음을 안내드리겠습니다. 🥳
+            </div>
+            <button type="button" class="btn_close">확인</button>
+        </div>
+    </div>
+
+    <div id="pop_info_2" class="pop_wrap" style="display:none;">
+        <div class="pop_inner">
+            <div class="title">프로세스 안내</div>
+            <div class="text">
+            <br>
+            배송해 주셔서 감사합니다!
+            <br>
+            수령자에게 물건이 배송되었음을 안내드리겠습니다. 💌
+            </div>
+            <button type="button" class="btn_close2">확인</button>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="card border-left-warning shadow w-100 py-2" id="login">
+            <div class="card-body">
+                <div class="text-lg font-weight-bold text-warning text-uppercase mb-1">ACHACHA</div>
+                <p class="card-text">로그인을 해주세요</p>
+                <a href="/member/login" class="btn btn-primary">로그인 하러가기</a>
+            </div>
+        </div>
+        <div class="card border-left-warning shadow w-100 py-2" style="margin-bottom: 5px;">
+            <div class="card-body">
+                <div class="text-lg font-weight-bold text-warning text-uppercase mb-1">ACHACHA</div>
+                <p class="card-text">아직 회원이 아니라면 회원가입을 해주세요</p>
+                <a href="/member/register" class="btn btn-primary">회원가입 하러가기</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; ACHACHA 2022</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+    
+
+    <script>
+        $(function() {
+            var target = document.querySelector('.btn_open');
+            var btnPopClose = document.querySelector('.pop_wrap .btn_close');
+            var targetID;
+
+            // 팝업 열기
+            target.addEventListener('click', function(){
+                console.log("button click")
+                targetID = this.getAttribute('href');
+                document.querySelector(targetID).style.display = 'block';
+            });
+            
+
+            // 팝업 닫기
+            btnPopClose.addEventListener('click', function(){
+                this.parentNode.parentNode.style.display = 'none';
+            });
+        });
+
+        $(function() {
+            var target = document.querySelector('.btn_open2');
+            var btnPopClose = document.querySelector('.pop_wrap .btn_close2');
+            var targetID;
+
+            // 팝업 열기
+            target.addEventListener('click', function(){
+                console.log("button click")
+                targetID = this.getAttribute('href');
+                document.querySelector(targetID).style.display = 'block';
+            });
+            
+
+            // 팝업 닫기
+            btnPopClose.addEventListener('click', function(){
+                this.parentNode.parentNode.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+{% endblock %}
+</html>
