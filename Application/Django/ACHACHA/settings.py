@@ -14,8 +14,8 @@ from pathlib import Path
 import os
 import pymysql
 from re import template
-import mykafka
-import kafkahandler
+# import mykafka
+# import kafkahandler
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 

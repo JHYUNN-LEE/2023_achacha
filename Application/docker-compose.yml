@@ -2,23 +2,24 @@ version: "3"
 services:
   nginx:
     container_name: nginx
-    build: ./nginx
+    build: ./Nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - ./nginx:/etc/nginx/conf.d/
-      - /home/ubuntu/docker/achacha_django/.static_root:/static
-      
+      - ./Nginx:/etc/nginx/conf.d/
+      - /home/ubuntu/gitProject/2023_achacha/Application/Django/.static_root:/static
+      - /etc/letsencrypt/:/etc/letsencrypt/
     depends_on:
       - achacha
     restart: always
 
   achacha:
     container_name: achacha
-    build: ./achacha_django
+    build: ./Django
     command: gunicorn --bind 0.0.0.0:8000 ACHACHA.wsgi:application
     expose:
       - "8000"
     # 변경사항이 있을 때마다 restart
     restart: always
-    env_file: /home/ubuntu/gitfile/ACHACHA_PROJECT/environment/.env
+    env_file: /home/ubuntu/gitProject/2023_achacha/Application/Django/.env
