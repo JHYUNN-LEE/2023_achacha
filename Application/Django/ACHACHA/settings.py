@@ -11,11 +11,18 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, environ
 import pymysql
 from re import template
 # import mykafka
 # import kafkahandler
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -26,7 +33,8 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,25 +96,27 @@ WSGI_APPLICATION = 'ACHACHA.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+
 if os.getenv('GAE_APPLICATION', None):
     DATABASES = {
         'default': {
             'ENGINE'    : 'django.db.backends.mysql',
-            'NAME'      : 'achacha',
-            'USER'      : 'ubuntu',
-            'PASSWORD'  : 'achacha7!',
+            'NAME'      : env("DB_NAME"),
+            'USER'      : env("DB_USER"),
+            'PASSWORD'  : env("DB_PASSWORD"),
             'HOST'      : 'cloudsql/mysql-achacha',
         }
     }
 else:
     DATABASES = {
-        'default':{
-            'ENGINE' : 'django.db.backends.mysql',
-            'NAME' : 'achacha',
-            'USER' : 'ubuntu',
-            'PASSWORD' : 'achacha7!',
-            'HOST' : '34.64.83.253',
-            'PORT' : '3306',
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env("DB_NAME"),
+            'USER': env("DB_USER"),
+            'PASSWORD': env("DB_PASSWORD"),
+            'HOST': env("DB_HOST"),
+            'PORT': env("DB_PORT"), 
         }
     }
 
@@ -157,7 +167,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, '.static_root')
 
-# AUTH_USER_MODEL = 'member.customuser'
+AUTH_USER_MODEL = 'member.customuser'
 # Default
 # primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

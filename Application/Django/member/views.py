@@ -1,10 +1,10 @@
 from enum import auto
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-# from .models import request
-# from .models import implement
-# from .forms import UserForm
-# from acha_money.models import Posts, UserDeal
+from .models import request
+from .models import implement
+from .forms import UserForm
+from acha_money.models import Posts, UserDeal
 
 
 # Python
@@ -13,10 +13,10 @@ import json, requests, time, random
 # Django
 from django.views import View
 from django.http import JsonResponse
-# from .utils import make_signature
-# from .models import Authentication
-# from acha_money.models import UserDeal
-# from acha_money.models import Posts
+from .utils import make_signature
+from .models import Authentication
+from acha_money.models import UserDeal
+from acha_money.models import Posts
 
 # logger import 
 from . import logger
