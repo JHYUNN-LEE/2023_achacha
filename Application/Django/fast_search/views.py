@@ -10,8 +10,8 @@ from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, Page
 
 # models.py
-# from .models import LostItems, Images, Alarm
-# from acha_money.models import UserDeal
+from .models import LostItems, Images, Alarm
+from acha_money.models import UserDeal
 
 # python edit import
 import json
@@ -21,7 +21,7 @@ import base64
 from datetime import datetime
 import pandas as pd 
 
-# from .models import LostItems, Images
+from .models import LostItems, Images
 
 # pip install elasticsearch
 from elasticsearch import Elasticsearch
@@ -36,7 +36,7 @@ from . import logger
 
 
 # acha_money connect with Posts 
-# from acha_money.models import Posts
+from acha_money.models import Posts
 
 # Create your views here.
 
