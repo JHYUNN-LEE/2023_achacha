@@ -16,7 +16,7 @@ RUN pip install --upgrade pip
 
 # 파이썬 패키지 설치
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --upgrade --no-deps --force-reinstall -r requirements.txt
 
 # 프로젝트 코드를 /home/ubuntu/predict_gas로 복사
 COPY . .
