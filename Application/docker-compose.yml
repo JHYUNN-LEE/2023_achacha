@@ -22,4 +22,4 @@ services:
       - "8000"
     # 변경사항이 있을 때마다 restart
     restart: always
-    env_file: /home/ubuntu/gitProject/2023_achacha/Application/Django/.env
+    env_file: /home/ubuntu/gitProject/2023_achacha/Application/Django/ACHACHA/.env
