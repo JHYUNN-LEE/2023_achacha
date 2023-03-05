@@ -171,9 +171,15 @@ def find_category_to_es(request):
     #print(insert_category, insert_color, insert_date)
     #print(insert_category, insert_color, insert_date)
 
-    es = Elasticsearch("http://호스트 입력:9200")
+    #es = Elasticsearch("http://211.195.43.69:9200")
+    # update ---------------
+    ELASTIC_PASSWORD = "0LcB1lCXYMyz0EW-NQI-"
+    es = Elasticsearch("https://achacha.kro.kr:9200",
+            ca_certs="/home/ubuntu/certs/http_ca.crt",
+            basic_auth=("elastic", ELASTIC_PASSWORD))
+    # ----------------------
 
-    res = es.search(index='lost112', size=10000,
+    res = es.search(index='lostitems', size=10000,
                 query = {    
                     "bool": {
                         "must": [

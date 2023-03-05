@@ -46,7 +46,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
             login(request, user)  # 로그인
-            return redirect('http://54.64.90.112:8000')
+            return redirect('http://localhost:8000')
     else:
         form = UserForm()
         
@@ -121,7 +121,7 @@ class SmsSendView(View):
         body = {
             "type": "SMS", 
             "contentType": "COMM",
-            "from": "01028820828", 
+            "from": "01083873393", 
             "content": f"[아차차 인증번호:{auth_number}]", 
             "messages": [{"to": f"{phone_number}"}] 
         }

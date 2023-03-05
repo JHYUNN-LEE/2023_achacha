@@ -29,4 +29,5 @@ urlpatterns = [
     path('all_search/', include('all_search.urls')),
     path('acha_money/', include('acha_money.urls')),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.MEDIAFILES_LOCATION, document_root=settings.MEDIAFILES_LOCATION)

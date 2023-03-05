@@ -32,7 +32,7 @@ class Posts(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
     category = models.CharField(max_length=45, blank=True, null=True)
     lost_items_id = models.CharField(max_length=45, blank=True, null=True)
-    img_src = models.ImageField(upload_to='acha_money/', max_length=100, blank=True, null=True)
+    img_src = models.ImageField(upload_to='acha_money', max_length=100, blank=True, null=True)
     get_place = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:

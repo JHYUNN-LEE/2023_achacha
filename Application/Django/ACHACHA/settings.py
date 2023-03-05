@@ -55,7 +55,11 @@ INSTALLED_APPS = [
     'fast_search',
     'member',
     'django.contrib.admin',
+    # AWS S3
+    'storages',
 ]
+
+AUTH_USER_MODEL = 'member.customuser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,12 +90,24 @@ TEMPLATES = [
     },
 ]
 
-# 추가
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #BASE_DIR/'media'
+# 미디어 설정
+MEDIAFILES_LOCATION = 'media'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #BASE_DIR/'media'
 
 WSGI_APPLICATION = 'ACHACHA.wsgi.application'
 
+# ----- AWS 정보 ----- #
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# ----- S3 Storage ----- #
+# 장고의 기본 저장 시스템 클래스를 지정
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -167,7 +183,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, '.static_root')
 
-AUTH_USER_MODEL = 'member.customuser'
+
 # Default
 # primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
